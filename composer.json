@@ -1,0 +1,26 @@
+{
+    "name": "perk/laravel-modules",
+    "description": "Zend style module bootstrapper for Laravel.",
+    "keywords": ["laravel", "modules", "module"],
+    "authors": [
+        {
+            "name": "Thomas Veilleux",
+            "email": "thomas@perk.com"
+        },
+        {
+            "name": "Hunter Skrasek",
+            "email": "hunter@perk.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Perk\\LaravelModules\\": "src/",
+            "Perk\\LaravelModules\\Tests": "tests/"
+        }
+    },
+    "minimum-stability": "stable"
+}
