@@ -1,0 +1,4 @@
+suites:
+  library_suite:
+    namespace: PerkDotCom\Modules
+    psr4_prefix: PerkDotCom\Modules
