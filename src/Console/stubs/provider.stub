@@ -1,0 +1,30 @@
+<?php namespace {{ namespace }};
+
+use Illuminate\Support\ServiceProvider;
+
+class {{ class_name }} extends ServiceProvider
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function boot()
+    {
+        parent::boot('{{ name }}');
+
+        if (!$this->app->routesAreCached()) {
+            require __DIR__ . '/routes.php';
+        }
+
+        $this->loadViewsFrom(__DIR__.'/resources/views', '{{ name }}');
+
+        $this->loadTranslationsFrom(__DIR__.'/resources/lang', '{{ name }}');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register()
+    {
+        parent::register('{{ name }}');
+    }
+}

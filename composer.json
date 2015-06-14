@@ -13,5 +13,10 @@
     "psr-4": {
       "PerkDotCom\\Modules\\Tests\\": "tests/"
     }
+  },
+  "require": {
+    "illuminate/support": "^5.1",
+    "illuminate/console": "^5.1",
+    "mustache/mustache": "^2.8"
   }
 }
