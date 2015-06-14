@@ -1,4 +1,4 @@
-<?php namespace Perk\LaravelModules\Console;
+<?php namespace PerkDotCom\Modules\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\Filesystem;

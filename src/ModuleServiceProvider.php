@@ -12,7 +12,7 @@ class ModuleServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands([
-            'PerkDotCom\Modules\ModuleMakeCommand'
+            'PerkDotCom\Modules\Console\ModuleMakeCommand'
         ]);
     }
 }
