@@ -63,6 +63,7 @@ class ModuleMakeCommand extends Command
             app_path('Modules' . DIRECTORY_SEPARATOR . $moduleName);
 
         $this->createModuleDirectories($modulePath);
+        $this->info("Created module '$moduleName' in '$modulePath");
     }
 
     /**
@@ -70,12 +71,13 @@ class ModuleMakeCommand extends Command
      */
     protected function createModuleDirectories($baseModulePath)
     {
+        $this->info('Creating module directories');
         foreach ($this->files as $key => $value) {
             if (is_array($value)) {
                 $this->createModuleDirectories($baseModulePath . DIRECTORY_SEPARATOR . $value);
                 continue;
             }
-
+            $this->info("Creating directory: {($baseModulePath . DIRECTORY_SEPARATOR . $value)}");
             $this->files->makeDirectory($baseModulePath . DIRECTORY_SEPARATOR . $value);
         }
     }
