@@ -37,6 +37,7 @@ class ModuleMakeCommand extends Command
         'src',
         'tests'
     ];
+
     /**
      * @var Filesystem
      */
@@ -72,7 +73,8 @@ class ModuleMakeCommand extends Command
     protected function createModuleDirectories($baseModulePath)
     {
         $this->info('Creating module directories');
-        foreach ($this->files as $key => $value) {
+        $this->files->makeDirectory($baseModulePath);
+        foreach ($this->folders as $key => $value) {
             if (is_array($value)) {
                 $this->createModuleDirectories($baseModulePath . DIRECTORY_SEPARATOR . $value);
                 continue;
