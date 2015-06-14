@@ -75,12 +75,15 @@ class ModuleMakeCommand extends Command
         $this->info('Creating module directories');
         $this->files->makeDirectory($baseModulePath);
         foreach ($this->folders as $key => $value) {
+            $basePath = $baseModulePath;
             if (is_array($value)) {
-                $this->createModuleDirectories($baseModulePath . DIRECTORY_SEPARATOR . $value);
+                $basePath = $basePath . DIRECTORY_SEPARATOR . $key;
+                foreach($value as $key => $subFolder) {
+                    $this->files->makeDirectory($basePath . DIRECTORY_SEPARATOR . $subFolder);
+                }
                 continue;
             }
-            $this->info("Creating directory: {($baseModulePath . DIRECTORY_SEPARATOR . $value)}");
-            $this->files->makeDirectory($baseModulePath . DIRECTORY_SEPARATOR . $value);
+            $this->files->makeDirectory($basePath . DIRECTORY_SEPARATOR . $value);
         }
     }
 }
