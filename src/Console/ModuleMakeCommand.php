@@ -1,7 +1,7 @@
 <?php namespace PerkDotCom\Modules\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Console\Application;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 use PerkDotCom\Modules\Generator;
 
