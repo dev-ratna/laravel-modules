@@ -148,10 +148,7 @@ class ModuleMakeCommand extends Command
      */
     protected function buildRoutesPath()
     {
-        return __DIR__ . DIRECTORY_SEPARATOR .
-        'src' . DIRECTORY_SEPARATOR .
-        'Http' . DIRECTORY_SEPARATOR .
-        'routes.php';
+        return DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Http' . DIRECTORY_SEPARATOR . 'routes.php';
     }
 
     /**
@@ -159,7 +156,7 @@ class ModuleMakeCommand extends Command
      */
     protected function buildViewsPath()
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'views';
+        return DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'views';
     }
 
     /**
@@ -167,6 +164,6 @@ class ModuleMakeCommand extends Command
      */
     protected function buildLangPath()
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'lang';
+        return DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'lang';
     }
 }
