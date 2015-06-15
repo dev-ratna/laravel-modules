@@ -128,7 +128,7 @@ class ModuleMakeCommand extends Command
      */
     protected function createServiceProvider($moduleName, $modulePath)
     {
-        $stub          = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'provider.stub';
+        $stub          = $this->getStub('provider.stub');
         $rootNamespace = $this->laravel->getNamespace();
         $replacements  = [
             'namespace'  => $rootNamespace . ucfirst($moduleName),
@@ -149,10 +149,10 @@ class ModuleMakeCommand extends Command
     {
         $this->files->put($modulePath . $this->buildRoutesPath(), '<php' . PHP_EOL);
 
-        $stub         = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'phpunit.stub';
+        $stub         = $this->getStub('phpunit.stub');
         $replacements = [
             'name'      => ucfirst($moduleName),
-            'bootstrap' => base_path('bootstrap' . DIRECTORY_SEPARATOR . 'autoload.php')
+            'bootstrap' => $this->buildBootstrapPath($modulePath)
         ];
 
         $this->generator->make($replacements, $stub, $modulePath . DIRECTORY_SEPARATOR . 'phpunit.xml');
@@ -180,5 +180,33 @@ class ModuleMakeCommand extends Command
     protected function buildLangPath()
     {
         return DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'lang';
+    }
+
+    /**
+     * @param $stub
+     *
+     * @return string
+     */
+    protected function getStub($stub)
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . $stub;
+    }
+
+    /**
+     * @param string $modulePath
+     *
+     * @return string
+     */
+    protected function buildBootstrapPath($modulePath)
+    {
+        $bootstrapPath = 'bootstrap' . DIRECTORY_SEPARATOR . 'autoload.php';
+        $basePath      = base_path();
+
+        while ($modulePath !== $basePath) {
+            $bootstrapPath = '..' . DIRECTORY_SEPARATOR . $bootstrapPath;
+            $modulePath    = dirname($modulePath);
+        }
+
+        return $bootstrapPath;
     }
 }
