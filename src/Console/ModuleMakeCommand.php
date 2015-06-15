@@ -95,6 +95,7 @@ class ModuleMakeCommand extends Command
         $this->createStructure($modulePath, $this->folders);
         $this->createServiceProvider($moduleName, $modulePath);
         $this->createFiles($moduleName, $modulePath);
+        $this->updateModulesManifest($moduleName);
         $this->info("Created module '$moduleName' in '$modulePath");
     }
 
@@ -156,6 +157,26 @@ class ModuleMakeCommand extends Command
         ];
 
         $this->generator->make($replacements, $stub, $modulePath . DIRECTORY_SEPARATOR . 'phpunit.xml');
+    }
+
+
+    protected function updateModulesManifest($moduleName)
+    {
+        $modulesManifest = storage_path('app' . DIRECTORY_SEPARATOR . 'modules.json');
+        $manifest        = [];
+
+        if ($this->files->exists($modulesManifest)) {
+            $manifest = json_decode($this->files->get($modulesManifest), true);
+        }
+
+        $rootNamespace = $this->laravel->getNamespace();
+        $provider      = $rootNamespace . ucfirst($moduleName) . 'ServiceProvider';
+
+        $manifest['providers'][] = $provider;
+
+        $this->files->put(
+            $modulesManifest, json_encode($manifest, JSON_PRETTY_PRINT)
+        );
     }
 
     /**

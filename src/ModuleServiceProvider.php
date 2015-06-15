@@ -14,5 +14,22 @@ class ModuleServiceProvider extends ServiceProvider
         $this->commands([
             'PerkDotCom\Modules\Console\ModuleMakeCommand'
         ]);
+
+        $this->registerModuleProviders();
+    }
+
+    protected function registerModuleProviders()
+    {
+        $files = $this->app['files'];
+
+        $manifestPath = storage_path('app' . DIRECTORY_SEPARATOR . 'modules.json');
+        if ($files->exists($manifestPath)) {
+            $manifest  = json_decode($files->get($manifestPath), true);
+            $providers = $manifest['providers'];
+
+            foreach ($providers as $provider) {
+                $this->app->register($provider);
+            }
+        }
     }
 }
