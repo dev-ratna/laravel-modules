@@ -103,7 +103,7 @@ class ModuleMakeCommand extends Command
             $path = $basePath . DIRECTORY_SEPARATOR . $value;
             if (!$this->files->isDirectory(dirname($path))) {
                 $this->files->makeDirectory(dirname($path), 0777, true, true);
-                $this->files->put($path . DIRECTORY_SEPARATOR . '.gitkeep', '');
+//                $this->files->put($path . DIRECTORY_SEPARATOR . '.gitkeep', '');
             }
         }
     }
