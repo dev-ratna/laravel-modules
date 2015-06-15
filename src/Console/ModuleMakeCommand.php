@@ -94,6 +94,7 @@ class ModuleMakeCommand extends Command
 
         $this->createStructure($modulePath, $this->folders);
         $this->createServiceProvider($moduleName, $modulePath);
+        $this->createFiles($moduleName, $modulePath);
         $this->info("Created module '$moduleName' in '$modulePath");
     }
 
@@ -141,6 +142,20 @@ class ModuleMakeCommand extends Command
         $providerFileName = $modulePath . DIRECTORY_SEPARATOR . $replacements['class_name'] . 'ServiceProvider.php';
 
         $this->generator->make($replacements, $stub, $providerFileName);
+    }
+
+
+    protected function createFiles($moduleName, $modulePath)
+    {
+        $this->files->put($modulePath . $this->buildRoutesPath(), '<php' . PHP_EOL);
+
+        $stub         = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'phpunit.stub';
+        $replacements = [
+            'name'      => ucfirst($moduleName),
+            'bootstrap' => base_path('bootstrap' . DIRECTORY_SEPARATOR . 'autoload.php')
+        ];
+
+        $this->generator->make($replacements, $stub, $modulePath . DIRECTORY_SEPARATOR . 'phpunit.xml');
     }
 
     /**
