@@ -1,6 +1,6 @@
 <?php namespace PerkDotCom\Modules;
 
-use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Filesystem\Filesystem;
 use Mustache_Engine;
 
 class Generator
