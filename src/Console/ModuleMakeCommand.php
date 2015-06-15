@@ -126,6 +126,6 @@ class ModuleMakeCommand extends Command
 
         $providerFileName = $modulePath . DIRECTORY_SEPARATOR . $replacements['class_name'] . 'ServiceProvider.php';
 
-        $this->generator->make($replacements, $stub, dirname($providerFileName));
+        $this->generator->make($replacements, $stub, $providerFileName);
     }
 }
