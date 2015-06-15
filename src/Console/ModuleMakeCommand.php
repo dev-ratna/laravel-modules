@@ -124,6 +124,8 @@ class ModuleMakeCommand extends Command
             'name'       => $moduleName
         ];
 
-        $this->generator->make($replacements, $stub, dirname($modulePath));
+        $providerFileName = $modulePath . DIRECTORY_SEPARATOR . $replacements['class_name'] . 'ServiceProvider.php';
+
+        $this->generator->make($replacements, $stub, dirname($providerFileName));
     }
 }
