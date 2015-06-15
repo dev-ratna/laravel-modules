@@ -12,12 +12,12 @@ class {{ class_name }}ServiceProvider extends ServiceProvider
         parent::boot('{{ name }}');
 
         if (!$this->app->routesAreCached()) {
-            require __DIR__ . '/routes.php';
+            require {{ routes }};
         }
 
-        $this->loadViewsFrom(__DIR__ . '/resources/views', '{{ name }}');
+        $this->loadViewsFrom({{ views }}, '{{ name }}');
 
-        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', '{{ name }}');
+        $this->loadTranslationsFrom({{ lang }}, '{{ name }}');
     }
 
     /**

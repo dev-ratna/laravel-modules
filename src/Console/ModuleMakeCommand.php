@@ -36,7 +36,20 @@ class ModuleMakeCommand extends Command
             ],
             'views',
         ],
-        'src',
+        'src'       => [
+            'Console' => [
+                'Commands'
+            ],
+            'Events',
+            'Exceptions',
+            'Http'    => [
+                'Controllers',
+                'Middleware',
+                'Requests'
+            ],
+            'Jobs',
+            'Listeners'
+        ],
         'tests'
     ];
 
@@ -119,11 +132,41 @@ class ModuleMakeCommand extends Command
         $replacements  = [
             'namespace'  => $rootNamespace . ucfirst($moduleName),
             'class_name' => ucfirst($moduleName),
-            'name'       => $moduleName
+            'name'       => $moduleName,
+            'routes'     => $this->buildRoutesPath(),
+            'views'      => $this->buildViewsPath(),
+            'lang'       => $this->buildLangPath()
         ];
 
         $providerFileName = $modulePath . DIRECTORY_SEPARATOR . $replacements['class_name'] . 'ServiceProvider.php';
 
         $this->generator->make($replacements, $stub, $providerFileName);
+    }
+
+    /**
+     * @return string
+     */
+    protected function buildRoutesPath()
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR .
+        'src' . DIRECTORY_SEPARATOR .
+        'Http' . DIRECTORY_SEPARATOR .
+        'routes.php';
+    }
+
+    /**
+     * @return string
+     */
+    protected function buildViewsPath()
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'views';
+    }
+
+    /**
+     * @return string
+     */
+    protected function buildLangPath()
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'lang';
     }
 }
