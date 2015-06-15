@@ -101,10 +101,8 @@ class ModuleMakeCommand extends Command
             }
 
             $path = $basePath . DIRECTORY_SEPARATOR . $value;
-            if (!$this->files->isDirectory(dirname($path))) {
-                $this->files->makeDirectory(dirname($path), 0777, true, true);
-//                $this->files->put($path . DIRECTORY_SEPARATOR . '.gitkeep', '');
-            }
+            $this->files->makeDirectory($path, 0777, true, true);
+            $this->files->put($path . DIRECTORY_SEPARATOR . '.gitkeep', "\n");
         }
     }
 
@@ -119,7 +117,7 @@ class ModuleMakeCommand extends Command
         $stub          = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'provider.stub';
         $rootNamespace = $this->laravel->getNamespace();
         $replacements  = [
-            'namespace'  => "$rootNamespace\\" . ucfirst($moduleName),
+            'namespace'  => $rootNamespace . '\\' . ucfirst($moduleName),
             'class_name' => ucfirst($moduleName),
             'name'       => $moduleName
         ];

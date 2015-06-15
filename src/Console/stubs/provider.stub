@@ -15,9 +15,9 @@ class {{ class_name }}ServiceProvider extends ServiceProvider
             require __DIR__ . '/routes.php';
         }
 
-        $this->loadViewsFrom(__DIR__.'/resources/views', '{{ name }}');
+        $this->loadViewsFrom(__DIR__ . '/resources/views', '{{ name }}');
 
-        $this->loadTranslationsFrom(__DIR__.'/resources/lang', '{{ name }}');
+        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', '{{ name }}');
     }
 
     /**
