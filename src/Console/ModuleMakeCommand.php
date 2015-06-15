@@ -117,7 +117,7 @@ class ModuleMakeCommand extends Command
         $stub          = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'provider.stub';
         $rootNamespace = $this->laravel->getNamespace();
         $replacements  = [
-            'namespace'  => $rootNamespace . '\\' . ucfirst($moduleName),
+            'namespace'  => $rootNamespace . ucfirst($moduleName),
             'class_name' => ucfirst($moduleName),
             'name'       => $moduleName
         ];
