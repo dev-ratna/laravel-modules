@@ -1,7 +1,9 @@
 <?php namespace PerkDotCom\Modules\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Contracts\Console\Application;
+use Illuminate\Filesystem\Filesystem;
+use PerkDotCom\Modules\Generator;
 
 class ModuleMakeCommand extends Command
 {
@@ -39,17 +41,25 @@ class ModuleMakeCommand extends Command
     ];
 
     /**
-     * @var Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
-    private $files;
+    protected $files;
 
     /**
-     * @param Filesystem $files
+     * @var Generator
      */
-    public function __construct(Filesystem $files)
+    protected $generator;
+
+    /**
+     * @param Application $laravel
+     * @param Filesystem  $files
+     * @param Generator   $generator
+     */
+    public function __construct(Application $laravel, Filesystem $files, Generator $generator)
     {
         parent::__construct();
-        $this->files = $files;
+        $this->files     = $files;
+        $this->generator = $generator;
     }
 
     /**
@@ -63,25 +73,57 @@ class ModuleMakeCommand extends Command
         $modulePath = ($path = $this->option('path')) ? $path . DIRECTORY_SEPARATOR . $moduleName :
             app_path('Modules' . DIRECTORY_SEPARATOR . $moduleName);
 
-        $this->createModuleDirectories($modulePath, $this->folders);
+        if ($this->files->exists($modulePath)) {
+            $this->error($moduleName . ' already exists!');
+
+            return false;
+        }
+
+        $this->createStructure($modulePath, $this->folders);
+        $this->createServiceProvider($moduleName, $modulePath);
         $this->info("Created module '$moduleName' in '$modulePath");
     }
 
     /**
+     * Creates the modules structure.
+     *
      * @param string $baseModulePath
      * @param array  $folders
      */
-    protected function createModuleDirectories($baseModulePath, array $folders)
+    protected function createStructure($baseModulePath, array $folders)
     {
-        $this->files->makeDirectory($baseModulePath);
         foreach ($folders as $key => $value) {
             $basePath = $baseModulePath;
             if (is_array($value)) {
                 $basePath = $basePath . DIRECTORY_SEPARATOR . $key;
-                $this->createModuleDirectories($basePath, $value);
+                $this->createStructure($basePath, $value);
                 continue;
             }
-            $this->files->makeDirectory($basePath . DIRECTORY_SEPARATOR . $value);
+
+            $path = $basePath . DIRECTORY_SEPARATOR . $value;
+            if (!$this->files->isDirectory(dirname($path))) {
+                $this->files->makeDirectory(dirname($path), 0777, true, true);
+                $this->files->put($path . DIRECTORY_SEPARATOR . '.gitkeep', '');
+            }
         }
+    }
+
+    /**
+     * Creates the service provider for the module.
+     *
+     * @param string $moduleName
+     * @param string $modulePath
+     */
+    protected function createServiceProvider($moduleName, $modulePath)
+    {
+        $stub          = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'provider.stub';
+        $rootNamespace = $this->laravel->getNamespace();
+        $replacements  = [
+            'namespace'  => "$rootNamespace\\" . ucfirst($moduleName),
+            'class_name' => ucfirst($moduleName),
+            'name'       => $moduleName
+        ];
+
+        $this->generator->make($replacements, $stub, dirname($modulePath));
     }
 }
