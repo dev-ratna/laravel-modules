@@ -15,7 +15,7 @@ class {{ class_name }}ServiceProvider extends ServiceProvider
             require __DIR__ . '{{ routes }}';
         }
 
-        $this->loadViewsFrom(__DIR __ . '{{ views }}', '{{ name }}');
+        $this->loadViewsFrom(__DIR__ . '{{ views }}', '{{ name }}');
 
         $this->loadTranslationsFrom(__DIR__ . '{{ lang }}', '{{ name }}');
     }
@@ -25,6 +25,6 @@ class {{ class_name }}ServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        parent::register('{{ name }}');
+
     }
 }

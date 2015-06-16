@@ -148,7 +148,7 @@ class ModuleMakeCommand extends Command
 
     protected function createFiles($moduleName, $modulePath)
     {
-        $this->files->put($modulePath . $this->buildRoutesPath(), '<php' . PHP_EOL);
+        $this->files->put($modulePath . $this->buildRoutesPath(), '<?php' . PHP_EOL);
 
         $stub         = $this->getStub('phpunit.stub');
         $replacements = [
