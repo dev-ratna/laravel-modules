@@ -1,5 +1,22 @@
 {
   "name": "PerkDotCom/laravel-modules",
+  "description": "Module creator for Laravel",
+  "keywords": [
+    "modules",
+    "laravel",
+    "perk"
+  ],
+  "homepage": "https://github.com/PerkDotCom/laravel-modules",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Perk.com",
+      "homepage": "https://github.com/PerkDotCom/laravel-modules/graphs/contributors"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.9"
+  },
   "autoload": {
     "psr-4": {
       "PerkDotCom\\Modules\\": "src/"
@@ -19,5 +36,8 @@
     "illuminate/support": "^5.1",
     "illuminate/console": "^5.1",
     "mustache/mustache": "^2.8"
+  },
+  "scripts": {
+    "test": "phpspec"
   }
 }
