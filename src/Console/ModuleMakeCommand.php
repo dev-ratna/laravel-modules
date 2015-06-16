@@ -4,6 +4,7 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 use PerkDotCom\Modules\Generator;
+use PerkDotCom\Modules\Module;
 
 class ModuleMakeCommand extends Command
 {
@@ -73,6 +74,7 @@ class ModuleMakeCommand extends Command
         parent::__construct();
         $this->files     = $files;
         $this->generator = $generator;
+        $this->laravel   = $laravel;
     }
 
     /**
@@ -82,21 +84,20 @@ class ModuleMakeCommand extends Command
      */
     public function handle()
     {
-        $moduleName = $this->argument('name');
-        $modulePath = ($path = $this->option('path')) ? $path . DIRECTORY_SEPARATOR . $moduleName :
-            app_path('Modules' . DIRECTORY_SEPARATOR . $moduleName);
+        $module = new Module($this->laravel);
+        $module->parse($this->argument('name'), $this->option('path'));
 
-        if ($this->files->exists($modulePath)) {
-            $this->error($moduleName . ' already exists!');
+        if ($this->files->exists($module->path)) {
+            $this->error($module->name . ' already exists!');
 
             return false;
         }
 
-        $this->createStructure($modulePath, $this->folders);
-        $this->createServiceProvider($moduleName, $modulePath);
-        $this->createFiles($moduleName, $modulePath);
-        $this->updateModulesManifest($moduleName);
-        $this->info("Created module '$moduleName' in '$modulePath");
+        $this->createStructure($module->path, $this->folders);
+        $this->createServiceProvider($module);
+        $this->createFiles($module->name, $module->path);
+        $this->updateModulesManifest($module->name);
+        $this->info("Created module '$module->name' in '$module->path");
     }
 
     /**
@@ -124,23 +125,22 @@ class ModuleMakeCommand extends Command
     /**
      * Creates the service provider for the module.
      *
-     * @param string $moduleName
-     * @param string $modulePath
+     * @param Module $module
      */
-    protected function createServiceProvider($moduleName, $modulePath)
+    protected function createServiceProvider(Module $module)
     {
         $stub          = $this->getStub('provider.stub');
         $rootNamespace = $this->laravel->getNamespace();
         $replacements  = [
-            'namespace'  => $rootNamespace . ucfirst($moduleName),
-            'class_name' => ucfirst($moduleName),
-            'name'       => $moduleName,
+            'namespace'  => $rootNamespace . ucfirst($module->name),
+            'class_name' => ucfirst($module->name),
+            'name'       => $module->name,
             'routes'     => $this->buildRoutesPath(),
             'views'      => $this->buildViewsPath(),
             'lang'       => $this->buildLangPath()
         ];
 
-        $providerFileName = $modulePath . DIRECTORY_SEPARATOR . $replacements['class_name'] . 'ServiceProvider.php';
+        $providerFileName = $module->path . DIRECTORY_SEPARATOR . $replacements['class_name'] . 'ServiceProvider.php';
 
         $this->generator->make($replacements, $stub, $providerFileName);
     }
@@ -170,7 +170,7 @@ class ModuleMakeCommand extends Command
         }
 
         $rootNamespace = $this->laravel->getNamespace();
-        $provider      = $rootNamespace . ucfirst($moduleName) . 'ServiceProvider';
+        $provider      = $rootNamespace . ucfirst($moduleName) . '\\' . ucfirst($moduleName) . 'ServiceProvider';
 
         $manifest['providers'][] = $provider;
 
