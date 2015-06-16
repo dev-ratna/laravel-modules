@@ -3,6 +3,7 @@
   "description": "Module creator for Laravel",
   "keywords": [
     "modules",
+    "module",
     "laravel",
     "perk"
   ],
