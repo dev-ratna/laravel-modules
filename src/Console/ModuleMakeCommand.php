@@ -14,8 +14,7 @@ class ModuleMakeCommand extends Command
      * @var string
      */
     protected $signature = 'make:module
-                            {name : The name of the module}
-                            {--path= : Path to create the module. Default: app/Modules}';
+                            {name : The name of the module}';
 
     /**
      * The console command description.
@@ -85,7 +84,7 @@ class ModuleMakeCommand extends Command
     public function handle()
     {
         $module = new Module($this->laravel);
-        $module->parse($this->argument('name'), $this->option('path'));
+        $module->parse($this->argument('name'));
 
         if ($this->files->exists($module->path)) {
             $this->error($module->name . ' already exists!');
@@ -221,11 +220,9 @@ class ModuleMakeCommand extends Command
     protected function buildBootstrapPath($modulePath)
     {
         $bootstrapPath = 'bootstrap' . DIRECTORY_SEPARATOR . 'autoload.php';
-        $basePath      = base_path();
 
-        while ($modulePath !== $basePath) {
+        for ($i = 0; $i < 3; $i++) {
             $bootstrapPath = '..' . DIRECTORY_SEPARATOR . $bootstrapPath;
-            $modulePath    = dirname($modulePath);
         }
 
         return $bootstrapPath;

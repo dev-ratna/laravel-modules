@@ -44,7 +44,7 @@ class Module
      *
      * @return self
      */
-    public function parse($name, $path)
+    public function parse($name, $path = null)
     {
         $this->name = $name;
 
