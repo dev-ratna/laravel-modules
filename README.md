@@ -1,6 +1,6 @@
 # Laravel Modules
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/perkdotcom/laravel-modules.svg?style=flat-square)](https://packagist.org/packages/perkdotcom/laravel-modules)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/PerkDotCom/laravel-modules.svg?style=flat-square)](https://packagist.org/packages/PerkDotCom/laravel-modules)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/PerkDotCom/laravel-modules/master.svg?style=flat-square)](https://travis-ci.org/PerkDotCom/laravel-modules)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/PerkDotCom/laravel-modules.svg?style=flat-square)](https://scrutinizer-ci.com/g/PerkDotCom/laravel-modules/code-structure)
